@@ -1,0 +1,68 @@
+###
+#
+# Browse Books
+#
+GET http://localhost:4004/odata/v4/catalog/Books
+  # &$select=title,stock
+  # &$expand=currency
+  # &sap-language=de
+
+###
+#
+# Browse book by id
+GET http://localhost:33807/odata/v4/catalog/Books(201)
+
+
+###
+#
+# Update Author with ID 101
+#
+POST http://localhost:4004/odata/v4/catalog/Authors
+Content-Type: application/json
+
+{"ID": 101, "name": "Some Author"}
+
+
+###
+#
+# Order a Book
+#
+POST http://localhost:4004/odata/v4/catalog/Orders
+Content-Type: application/json;IEEE754Compatible=true
+
+{"book_ID": 271, "amount": 2}
+
+### Insert a new book
+POST http://localhost:4004/odata/v4/catalog/Books
+Content-Type: application/json
+
+{
+  "ID": 301,
+  "title": "cspsyco2",
+  "author_ID": 170,
+  "stock": 50
+}
+
+
+
+### Delete a book
+DELETE http://localhost:4004/odata/v4/catalog/Books(301)
+
+
+###update without custom logic
+PUT http://localhost:4004/odata/v4/catalog/Books(101)
+Content-Type: application/json
+
+{"ID": 101, "title": "Some Author3"}
+
+
+
+### Insert new user
+POST http://localhost:4004/odata/v4/catalog/users
+Content-Type: application/json
+
+{
+  "username": "jinoy",
+  "password": "jinoy123",
+  "name": "Jinoy"
+}
