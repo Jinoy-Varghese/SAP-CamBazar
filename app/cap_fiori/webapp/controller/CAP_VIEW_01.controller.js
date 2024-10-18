@@ -6,9 +6,10 @@ sap.ui.define([
     "sap/ui/model/Sorter",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
-	"sap/ui/model/FilterType"
+	"sap/ui/model/FilterType",
+    "sap/m/MessageToast"
 ],
-function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,FilterType) {
+function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,FilterType,MessageToast) {
     "use strict";
 
     return Controller.extend("capfiori.controller.CAP_VIEW_01", {
@@ -124,6 +125,7 @@ function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,
             oView.byId("Panel3").setVisible(false);
             oView.byId("Panel4").setVisible(false);
             oView.byId("Panel5").setVisible(false);
+            oView.byId("Panel6").setVisible(false);
             
 
             // Add more panels here if needed
@@ -151,6 +153,11 @@ function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,
         add_item : function(){
             this.hideAllPanels();
             var oPanel = this.byId("Panel5");
+            oPanel.setVisible(true);
+        },
+        update_item : function(){
+            this.hideAllPanels();
+            var oPanel = this.byId("Panel6");
             oPanel.setVisible(true);
         },
         //---------------end of panel show/hide----------------------
@@ -212,6 +219,8 @@ function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,
             }
         },
         //----------end of smart table operations-----------
+        //----------CRUD operations-----------
+
         add_item_data: function() {
             var cam_code = this.getView().byId("cam_code").getValue();
             var item_name = this.getView().byId("item_name").getValue();
@@ -228,12 +237,128 @@ function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,
                 "stock" : stock
             });
             oContext.created().then(function () {
-                alert("sales order successfully created");
+                MessageBox.success("Product Added Successfully");
+                this.getView().byId("update_cam_code").setValue("");
+                this.getView().byId("update_item_name").setValue("");
+                this.getView().byId("update_stock").setValue("");
+                this.getView().byId("update_Item_Price").setValue("");
             }).catch(function(err) {
                 console.error("Error creating book: ", err);
                 MessageBox.error("An error occurred while creating the book. Please try again.");
             });
+        },
+        onActionPress: function (oEvent) {
+            // Get the context of the pressed button
+            var oButton = oEvent.getSource();
+            var oContext = oButton.getBindingContext();
+            this._oSelectedContext = oContext; // Store the context for later use
+
+            // Load the ActionSheet fragment if not already loaded
+            if (!this._oActionSheet) {
+                Fragment.load({
+                    id: this.getView().getId(),
+                    name: "capfiori.view.ActionSheet",
+                    controller: this
+                }).then(function (oActionSheet) {
+                    this._oActionSheet = oActionSheet;
+                    this.getView().addDependent(this._oActionSheet);
+                    this._oActionSheet.openBy(oButton);
+                }.bind(this));
+            } else {
+                this._oActionSheet.openBy(oButton);
+            }
+        },
+        onEditPress: function () {
+            var oData = this._oSelectedContext.getObject();
+            MessageToast.show("Edit action for Book ID: " + oData.ID);
+            this.update_item();
+            var product_model = this.getOwnerComponent().getModel();
+                let aFilters = [
+                    new Filter("ID", FilterOperator.EQ, oData.ID)
+                ];
+                let oBinding = product_model.bindList("/Books");
+                oBinding.filter(aFilters);
+
+                oBinding.requestContexts().then((aContexts) => {
+                    if (aContexts.length > 0) {
+                        aContexts.forEach((oContext) => {
+                            let oUser = oContext.getObject();
+                            console.log("Cam Found in DB:", oUser);
+                            this.getView().byId("update_cam_code").setValue(oUser.ID);
+                            this.getView().byId("update_item_name").setValue(oUser.title);
+                            this.getView().byId("update_stock").setValue(oUser.stock);
+                            this.getView().byId("update_Item_Price").setValue(oUser.author_ID);
+                        });                         
+
+                    } else {
+                        MessageBox.error("Invalid ID");
+                    }
+                }).catch((err) => {
+                    console.error("Error fetching data: ", err);
+                    MessageBox.error("An error occurred while fetching data. Please try again.");
+                });
+        },
+        onDeletePress: function () {
+            var oContext = this._oSelectedContext;
+            var sBookId = oContext.getProperty("ID"); 
+
+            MessageBox.confirm("Are you sure you want to delete Book ID: " + sBookId + "?", {
+                actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                onClose: function (oAction) {
+                    if (oAction === MessageBox.Action.YES) {
+                        oContext.delete("$auto").then(function () {
+                            MessageToast.show("Book ID: " + sBookId + " deleted.");
+                        }).catch(function (oError) {
+                            MessageBox.alert("Could not delete Book: " + oError.message, {
+                                icon: MessageBox.Icon.ERROR,
+                                title: "Error"
+                            });
+                        });
+                    }
+                }
+            });
+        },
+        update_item_data: function() {
+            var cam_code = this.getView().byId("update_cam_code").getValue();
+            var item_name = this.getView().byId("update_item_name").getValue();
+            var stock = this.getView().byId("update_stock").getValue();
+            var Item_Price = this.getView().byId("update_Item_Price").getValue();
+        
+            var update_oModel = this.getView().getModel();
+            var sPath = "/Books('" + cam_code + "')";
+            var oContext = update_oModel.bindContext(sPath).getBoundContext();
+        
+            // Lock UI until submitBatch is resolved
+            var oView = this.getView();
+            function resetBusy() {
+                oView.setBusy(false);
+            }
+            oView.setBusy(true);
+        
+            // Update the properties of the entity
+            oContext.setProperty("title", item_name);
+            oContext.setProperty("author_ID", Item_Price);
+            oContext.setProperty("stock", stock);
+        
+            // Submit the changes to the server
+            update_oModel.submitBatch(update_oModel.getUpdateGroupId()).then(function() {
+                resetBusy();
+                MessageBox.success("Camera Details Successfully updated");
+            }).catch(function(err) {
+                resetBusy();
+                console.error("Error updating Camera: ", err);
+                MessageBox.error("An error occurred while updating the book. Please try again.");
+            });
         }
+        
+        
+        //----------end of CRUD operations-----------
+
+
+
+
+
+
 
     });
 });

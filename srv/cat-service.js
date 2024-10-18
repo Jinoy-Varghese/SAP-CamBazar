@@ -70,8 +70,8 @@ module.exports = (srv) => {
 
   // Add some discount for overstocked books
   // each is a variable having all the response data from the database
-  srv.after ('READ', 'Books', each => {
-    if (each.stock > 111)  each.title += ' -- 11% discount!'
-  })
+  // srv.after ('READ', 'Books', each => {
+  //   if (each.stock > 111)  each.title += ' -- 11% discount!'
+  // })
 
 }

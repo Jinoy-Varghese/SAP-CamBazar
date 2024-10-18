@@ -171,9 +171,9 @@
 									$count: true
 								}
                                 }">
-            			<headerToolbar>
-				<OverflowToolbar id="_IDGenOverflowToolbar3">
-					<content>
+            	<headerToolbar>
+                    <OverflowToolbar id="_IDGenOverflowToolbar3">
+                        <content>
 						<ToolbarSpacer id="_IDGenToolbarSpacer4"/>
                         <SearchField
                             id="searchField"
@@ -210,6 +210,9 @@
                     <Column id="_IDGenColumn3">
                         <Label id="_IDGenLabel5" text="Stock" />
                     </Column>
+                    <Column id="_IDGenColumn4">
+                        <Label id="_IDenLbe11" text="Action" />
+                    </Column>
                 </columns>
                 <items>
                     <ColumnListItem id="_IDGenColumnListItem1">
@@ -218,6 +221,7 @@
                             <Text id="_IDGenText9" text="{title}" />
                             <Text id="_IDGenText10" text="{author_ID}" />
                             <Text id="_IDGenText11" text="{stock}" />
+                            <Button id="action_button" text="..." press=".onActionPress" />
                         </cells>
                     </ColumnListItem>
                 </items>
@@ -261,6 +265,50 @@
                     </HBox>
                 </content>
             </Panel>
+
+            <!-- =================== update item =================== -->
+
+            <Panel id="Panel6" visible="false" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
+                <headerToolbar>
+                    <OverflowToolbar id="_IDGenOverflowToolbar6">
+                        <Title id="_IDGenTitle6" text="Update Product"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <content>
+                    <Breadcrumbs id="_IDGenBreadcrumb6" currentLocationText="Add new item" class="mt-1" >
+                            <Link id="_IDGenLink6" press="onPress" text="Master"/>
+                    </Breadcrumbs>
+                    <HBox id="_IDGenHBox6" alignItems="Center" class="mt-2">
+                        <VBox id="_IDGenVBox44" >
+                            <Label id="_IDGenLabel74" text="Product Code"></Label>
+                            <Input xmlns="sap.m" placeholder="Enter Your User name" id="update_cam_code"  />
+                        </VBox>
+                        <VBox id="_IDGenVBox82" class="sapUiSmallMarginBegin">
+                            <Label id="_IDGenLabwel8" text="Item Name"></Label>
+                            <Input xmlns="sap.m" placeholder="Enter Your User name" id="update_item_name"  />
+                        </VBox>
+                    </HBox>
+                    <HBox id="_IDGenwHBox3" alignItems="Center">
+                       <VBox id="_IDGenVwBox6" class="sapUiSmallMarginEnd">
+                            <Label id="_IDGwenLabel6" text="Stock"></Label>
+                            <Input xmlns="sap.m" placeholder="Enter Your User name" id="update_stock"  />
+                        </VBox>
+                        <VBox id="_IDGwenVBox9" >
+                            <Label id="_IDwGenLabel9" text="Price"></Label>
+                            <Input xmlns="sap.m" placeholder="Enter Your User name" id="update_Item_Price"  />
+                        </VBox>
+                    </HBox>
+                    <HBox id="_IDGenwHBox1" >
+                        <VBox id="_IDGwenVBox10" >
+                            <Button id="_IwDGenButton9" text="Update Item"  type="Emphasized" class="customButton" press=".update_item_data" />
+                        </VBox>
+                    </HBox>
+                </content>
+            </Panel>
+
+            <!-- =================== end of update item =================== -->
+
+
 
         </VBox>
     </HBox>
