@@ -70,7 +70,7 @@
           "operationMode": "Server",
           "autoExpandSelect": true,
           "earlyRequests": true,
-          "groupId": "$auto"
+          "groupId": "$direct"
         }
       }
     },

@@ -1,11 +1,19 @@
 namespace my.bookshop;
 using { Country, managed } from '@sap/cds/common';
+using { Attachments } from '@cap-js/attachments';
+
+
+aspect CustomAttachments {
+    file_url : String;
+    // Add other properties as needed
+}
 
 entity Books {
-  key ID : Integer;
-  title  : localized String;
-  author : Association to Authors;
-  stock  : Integer;
+    key ID : Integer;
+    title  : localized String;
+    author : Association to Authors;
+    stock  : Integer;
+    attachments: Composition of many CustomAttachments;
 }
 
 entity Authors {

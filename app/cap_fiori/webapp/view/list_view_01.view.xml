@@ -2,6 +2,7 @@
     xmlns:viz="sap.viz.ui5.controls"
     xmlns:table="sap.ui.table"
     xmlns:viz.data="sap.viz.ui5.data" 
+    xmlns:unified="sap.ui.unified"
     xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" 
     xmlns:commons="sap.suite.ui.commons" xmlns:l="sap.ui.layout" 
     xmlns="sap.m" xmlns:f="sap.f" controllerName="capfiori.controller.CAP_VIEW_01" 
@@ -25,12 +26,12 @@
                     <tnt:NavigationListItem id="_IDGenNavigationListItem1" text="Home" icon="sap-icon://home" select=".onHomePress" />
                     <tnt:NavigationListGroup id="_IDGenNavigationListGroup" text="New">
                         <tnt:NavigationListItem id="_IDGenNavigationListItem3" select=".onListPress" text="Order List" icon="sap-icon://activity-2" />
-                        <tnt:NavigationListItem id="_IDGenNavigationListItem2" select=".onAboutPress"  text="About" icon="sap-icon://hint" />
                         <tnt:NavigationListItem id="_IDGenNavigationListItem4" text="Master" icon="sap-icon://key-user-settings">
                             <tnt:NavigationListItem id="_IDGenNavigationListItem5" text="Item Master" select=".viewOrders" />
                             <tnt:NavigationListItem text="Add New Item" id="add_new" select=".add_item" />
                         </tnt:NavigationListItem>
                     </tnt:NavigationListGroup>
+                    <tnt:NavigationListItem id="_IDGenNavigationListItem2" select=".onAboutPress"  text="About" icon="sap-icon://hint" />
                     <tnt:NavigationListGroup id="_IDGenNavigationListGroup1" text="Recently used">
                         <tnt:NavigationListItem id="_IDGenNavigationListItem6" text="Managing My Area" icon="sap-icon://kpi-managing-my-area" />
                         <tnt:NavigationListItem id="_IDGenNavigationListItem7" text="Flight" icon="sap-icon://flight" />
@@ -75,7 +76,7 @@
                         <Title id="_IDGenTitle" text="About the company"/>
                     </OverflowToolbar>
                 </headerToolbar>
-                <content>
+                <content> 
                     <Breadcrumbs id="_IDGenBreadcrumbs" currentLocationText="Dashboard" class="mt-1" >
                         <Link id="_IDGenLink1" press="onPress" text="About"/>
                     </Breadcrumbs>
@@ -258,7 +259,12 @@
                             <Input xmlns="sap.m" placeholder="Enter Your User name" id="Item_Price"  />
                         </VBox>
                     </HBox>
-                    <HBox id="_IDGenHBox1" >
+                    <HBox id="_IDGenHBox33"  class="mt-1">
+                        <VBox id="_IDGenVBox120" >
+                            <unified:FileUploader id="fileUploader" name="myFile" placeholder="Choose a image for upload..." />
+                        </VBox>
+                    </HBox>
+                    <HBox id="_IDGenHBox1">
                         <VBox id="_IDGenVBox10" >
                             <Button id="_IDGenButton9" text="Add Item"  type="Emphasized" class="customButton" press=".add_item_data" />
                         </VBox>

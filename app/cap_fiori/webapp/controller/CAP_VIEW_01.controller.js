@@ -205,7 +205,7 @@ function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,
 				return;
 			}
 			oBinding.refresh();
-			MessageBox.show("Data Refreshed");
+			MessageToast.show("Data Refreshed");
 		},
         onSearch: function () {
             var oView = this.getView(),
@@ -226,27 +226,62 @@ function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,
             var item_name = this.getView().byId("item_name").getValue();
             var stock = this.getView().byId("stock").getValue();
             var Item_Price = this.getView().byId("Item_Price").getValue();
-
-            // Get the OData model
-            var oModel = this.getView().getModel();
-
-            var oContext = oModel.bindList("/Books").create({
-                "ID" : cam_code,
-                "title" : item_name,
-                "author_ID" : Item_Price,
-                "stock" : stock
-            });
-            oContext.created().then(function () {
-                MessageBox.success("Product Added Successfully");
-                this.getView().byId("update_cam_code").setValue("");
-                this.getView().byId("update_item_name").setValue("");
-                this.getView().byId("update_stock").setValue("");
-                this.getView().byId("update_Item_Price").setValue("");
-            }).catch(function(err) {
-                console.error("Error creating book: ", err);
-                MessageBox.error("An error occurred while creating the book. Please try again.");
+            var oFileUploader = this.getView().byId("fileUploader");
+            console.log("FileUploader:", oFileUploader);
+        
+            // Access the file input element directly
+            var oFileInput = oFileUploader.getDomRef().querySelector("input[type='file']");
+            var oFile = oFileInput.files;
+            console.log("Selected files:", oFile);
+            if (!oFile || oFile.length === 0) {
+                MessageBox.error("Please select a file to upload.");
+                return;
+            }
+        
+            // Create a new FormData object to handle the file upload
+            var formData = new FormData();
+            formData.append("file", oFile[0]);
+        
+            // Perform the file upload using CAPM
+            fetch("/upload", { // Adjust the URL to your CAPM endpoint
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("File uploaded successfully:", data);
+        
+                // Get the OData model
+                var oModel = this.getView().getModel();
+        
+                // Proceed with creating the OData entry
+                var oContext = oModel.bindList("/Books").create({
+                    "ID" : cam_code,
+                    "title" : item_name,
+                    "author_ID" : Item_Price,
+                    "stock" : stock,
+                    "attachments": [{
+                        "file_url": data.file_url // Use the file URL returned by the backend
+                    }]
+                });
+                oContext.created().then(() => {
+                    MessageBox.success("Product Added Successfully");
+                    this.getView().byId("cam_code").setValue(null);
+                    this.getView().byId("item_name").setValue(null);
+                    this.getView().byId("stock").setValue(null);
+                    this.getView().byId("Item_Price").setValue(null);
+                    oFileUploader.clear(); // Clear the file uploader
+                }).catch((err) => {
+                    console.error("Error adding book: ", err);
+                    MessageBox.error("An error occurred while adding the book. Please try again.");
+                });
+            })
+            .catch(err => {
+                console.error("Error uploading file:", err);
+                MessageBox.error("An error occurred while uploading the file. Please try again.");
             });
         },
+        
         onActionPress: function (oEvent) {
             // Get the context of the pressed button
             var oButton = oEvent.getSource();
@@ -267,6 +302,25 @@ function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,
             } else {
                 this._oActionSheet.openBy(oButton);
             }
+        },
+        onViewPress: function(){
+            var oView = this.getView();
+            if(!this.byId("viewPopup")){
+                Fragment.load({
+                    id:oView.getId(),
+                    name: "capfiori.view.viewItem",
+                    controller:this
+                }).then(function(oDialog){
+                    oView.addDependent(oDialog);
+                    oDialog.open();
+                })
+            }
+            else{
+                this.byId("viewPopup").open();
+            }
+        },
+        closeViewPopup: function(){
+            this.byId("viewPopup").close();
         },
         onEditPress: function () {
             var oData = this._oSelectedContext.getObject();
@@ -301,12 +355,11 @@ function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,
         onDeletePress: function () {
             var oContext = this._oSelectedContext;
             var sBookId = oContext.getProperty("ID"); 
-
             MessageBox.confirm("Are you sure you want to delete Book ID: " + sBookId + "?", {
                 actions: [MessageBox.Action.YES, MessageBox.Action.NO],
                 onClose: function (oAction) {
                     if (oAction === MessageBox.Action.YES) {
-                        oContext.delete("$auto").then(function () {
+                        oContext.delete("$direct").then(function () {
                             MessageToast.show("Book ID: " + sBookId + " deleted.");
                         }).catch(function (oError) {
                             MessageBox.alert("Could not delete Book: " + oError.message, {
@@ -341,7 +394,7 @@ function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,
             oContext.setProperty("stock", stock);
         
             // Submit the changes to the server
-            update_oModel.submitBatch(update_oModel.getUpdateGroupId()).then(function() {
+            update_oModel.submitBatch("auto").then(function() {
                 resetBusy();
                 MessageBox.success("Camera Details Successfully updated");
             }).catch(function(err) {

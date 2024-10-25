@@ -1,0 +1,35 @@
+<core:FragmentDefinition 
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+
+ >
+    <Dialog id="viewPopup" title="Policy Document" contentWidth="30rem">
+
+
+
+
+		<l:VerticalLayout id="_IDGenVerticalLayout1"
+				width="100%"
+				class="gridWrapper">
+			<l:Grid id="_IDGenGrid"
+                containerQuery="true"
+                hSpacing="2"
+                defaultSpan="L6 M6 S6"
+            >
+				<core:HTML id="_IDGenHTML" content="&lt;div class=&quot;custform&quot; /&gt;" />
+				<core:HTML id="_IDGenHTML1" content="&lt;div class=&quot;custform&quot; /&gt;" />
+				<core:HTML id="_IDGenHTML2" content="&lt;div class=&quot;custform&quot; /&gt;" />
+				<core:HTML id="_IDGenHTML3" content="&lt;div class=&quot;custform&quot; /&gt;" />
+			</l:Grid>
+		</l:VerticalLayout>
+
+
+
+
+
+        <beginButton>
+            <Button id="_IDGenButton52" text="close" press="closeViewPopup()" />
+        </beginButton>
+    </Dialog>
+</core:FragmentDefinition>
