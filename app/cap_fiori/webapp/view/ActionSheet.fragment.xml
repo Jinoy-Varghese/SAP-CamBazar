@@ -2,6 +2,7 @@
     <ActionSheet id="actionSheet" title="Actions">
         <buttons>
             <Button id="viewButton" text="View" press=".onViewPress" />
+            <Button id="sendTo" text="View" press=".sendTo" />
             <Button id="editButton" text="Edit" press=".onEditPress" />
             <Button id="deleteButton" text="Delete" press=".onDeletePress" />
         </buttons>

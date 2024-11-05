@@ -2,7 +2,7 @@
 #
 # Browse Books
 #
-GET http://localhost:4004/odata/v4/catalog/Books?$expand=attachments
+GET http://localhost:4004/odata/v4/catalog/Books(536363)?$expand=attachments
   # &$select=title,stock
   # &$expand=currency
   # &sap-language=de

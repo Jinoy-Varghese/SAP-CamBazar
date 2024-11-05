@@ -200,13 +200,13 @@
 				</headerToolbar>
                 <columns>
                     <Column id="_IDGenColumn">
-                        <Label id="_IDGenLabel1" text="Book Id" />
+                        <Label id="_IDGenLabel1" text="Id" />
                     </Column>
                     <Column id="_IDGenColumn1">
-                        <Label id="_IDGenLabel3" text="Book Name" />
+                        <Label id="_IDGenLabel3" text="Item Name" />
                     </Column>
                     <Column id="_IDGenColumn2">
-                        <Label id="_IDGenLabel4" text="Author Id" />
+                        <Label id="_IDGenLabel4" text="Sales Price" />
                     </Column>
                     <Column id="_IDGenColumn3">
                         <Label id="_IDGenLabel5" text="Stock" />
@@ -242,7 +242,7 @@
                     <HBox id="_IDGenHBox2" alignItems="Center" class="mt-2">
                         <VBox id="_IDGenVBox7" >
                             <Label id="_IDGenLabel7" text="Product Code"></Label>
-                            <Input xmlns="sap.m" placeholder="Enter Your User name" id="cam_code"  />
+                            <Input xmlns="sap.m" placeholder="Enter Your product code" id="cam_code" />
                         </VBox>
                         <VBox id="_IDGenVBox8" class="sapUiSmallMarginBegin">
                             <Label id="_IDGenLabel8" text="Item Name"></Label>

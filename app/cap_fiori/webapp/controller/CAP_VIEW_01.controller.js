@@ -303,6 +303,17 @@ function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,
                 this._oActionSheet.openBy(oButton);
             }
         },
+        formatFileName: function(fileUrl) {
+            console.log("Attachments:", fileUrl); // Debug statement
+            if (Array.isArray(fileUrl) && fileUrl.length > 0) {
+                var file = fileUrl[0]; // Access the first element of the array
+                console.log("file properties:", Object.keys(file)); // Log the properties of the file object
+                if (file.file_url) {
+                    return "../../uploads/" + file.file_url.split('/').pop();
+                }
+            }
+            return "no image link";
+        },
         onViewPress: function(){
             var oView = this.getView();
             if(!this.byId("viewPopup")){
@@ -312,11 +323,14 @@ function (Controller,MessageBox,Fragment,JSONModel,Sorter,Filter,FilterOperator,
                     controller:this
                 }).then(function(oDialog){
                     oView.addDependent(oDialog);
+                    oDialog.setBindingContext(this._oSelectedContext); //to send all data related to the id to the fragment.
                     oDialog.open();
-                })
+                }.bind(this));
             }
             else{
-                this.byId("viewPopup").open();
+                var oDialog = this.byId("viewPopup");
+                oDialog.setBindingContext(this._oSelectedContext); //to send all data related to the id to the fragment.
+                oDialog.open();
             }
         },
         closeViewPopup: function(){

@@ -6,6 +6,8 @@ const path = require('path');
 
 cds.on('bootstrap', app => {
     app.use(fileUpload());
+    app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
     app.post('/upload', (req, res) => {
         if (!req.files || Object.keys(req.files).length === 0) {
