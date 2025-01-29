@@ -2,10 +2,16 @@
 #
 # Browse Books
 #
-GET http://localhost:4004/odata/v4/catalog/Books(536363)?$expand=attachments
+GET http://localhost:4004/odata/v4/catalog/sales
   # &$select=title,stock
   # &$expand=currency
   # &sap-language=de
+
+###
+#
+# Browse Books with attachments
+#
+GET http://localhost:4004/odata/v4/catalog/Books?$expand=attachments
 
 ###
 #
@@ -50,10 +56,17 @@ DELETE http://localhost:4004/odata/v4/catalog/Books(301)
 
 
 ###update without custom logic
-PUT http://localhost:4004/odata/v4/catalog/Books(101)
+PUT http://localhost:4004/odata/v4/catalog/Books(1)
 Content-Type: application/json
 
-{"ID": 101, "title": "Some Author3"}
+{
+  "ID": 1,
+  "active_status": "Y",
+  "title":"Canon EOS R50",
+  "stock" : 10,
+  "author_ID" : 72000,
+  "status" : "P"
+}
 
 
 

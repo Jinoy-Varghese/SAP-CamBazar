@@ -3,9 +3,7 @@
 		xmlns:core="sap.ui.core">
 	<Menu id="_IDGenMenu">
 		<MenuItem id="_IDGenMenuItem" text="My Profile" icon="sap-icon://customer"/>
-		<MenuItem id="_IDGenMenuItem14" text="My Cart" icon="sap-icon://cart-full" press=".myCart"/>
 		<MenuItem id="_IDGenMenuItem12" text="Properties" icon="sap-icon://action-settings"/>
-		<MenuItem id="themeToggleMenuItem" text="Dark Mode" icon="sap-icon://dark-mode" press=".onToggleTheme"/>
 		<MenuItem id="_IDGenMenuItem13" text="Logout" icon="sap-icon://decline" press=".logout"/>
 	</Menu>
 </core:FragmentDefinition>

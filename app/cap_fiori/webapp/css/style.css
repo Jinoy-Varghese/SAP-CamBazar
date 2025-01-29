@@ -1,77 +1,169 @@
-.redtext{
-    color:rgb(255, 0, 0);
+.redtext {
+    color: rgb(255, 0, 0);
     animation: animate 2s linear infinite;
 }
-.customButton{
+
+.customButton {
     margin-top: 1rem;
 }
-.vbox{
+
+.pageContainer {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 85vh; /* Full viewport height to center vertically */
 }
-.custform{
+
+.loginHBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%; /* Adjust width as needed */
+    max-width: 1200px; /* Set a max width for the layout */
+}
+
+.imageContainer {
+    flex: 1;
+    border-radius: 15px;
+    height: 100%;
+}
+.loginHBox > .imageContainer > .sapMFlexItem {
+    height: 100%;
+}
+.loginImage{
+    border-radius: 15px 0px 0px 15px;
+    height: 100% !important;
+}
+.custform > .sapUiForm > .sapUiFormResGrid > h4
+{
+    font-size: 1.7rem !important;
+    margin-left: -.01rem;
+}
+
+.formContainer {
+    flex: 1;
+    background-color: white;
+    border-radius: 0px 15px 15px 0px;
+    height: 100%;
+}
+.card {
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    padding:.5rem;
+}
+.custform {
+    /* border: 1px solid black; */
+    /* border-radius: 15px; */
+    padding: 2rem; /* Add padding for better spacing */
+}
+.loginHBox{
     border: 1px solid black;
     border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    height: 80%;
 }
-.sapUiRespGridSpanS12{
+
+.sapUiRespGridSpanS12 {
     width: 0;
 }
-.mt-1{
+
+.mt-1 {
     margin-top: 2vh;
 }
-.mt-2{
+
+.mt-2 {
     margin-top: 6vh;
 }
-.mt-3{
+
+.mt-3 {
     margin-top: 9vh;
 }
-.mt-4{
+
+.mt-4 {
     margin-top: 12vh;
 }
-.ml-1{
+
+.ml-1 {
     margin-left: 1vw;
 }
-.justify-content-center
-{
-  justify-content: center;  
+
+.justify-content-center {
+    justify-content: center;
 }
-.d-flex{
-    display:flex;
+
+.d-flex {
+    display: flex;
 }
-.align-items-center{
+
+.align-items-center {
     align-items: center;
 }
 
-@keyframes animate{
-    0%{
-        color:aqua;
-    }   
-    50%{
-        color:rgb(0, 255, 0);
-    }
-    100%{
-        color:rgb(204, 0, 255);
-    }
+.cartHBox {
+    width: 55vw !important;
+    padding-right: 3rem;
+}
 
+#__data53 {
+    width: -moz-available;
 }
-#sideNavigation::-webkit-scrollbar { 
-    display: none;  /* Safari and Chrome */
+
+.totalPriceBox {
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
 }
-#application-project1-display-component---list_view_01--listPage-cont
-{
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+
+.totalPriceLabel {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.totalPriceValue {
+    font-size: 32px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.p-1 {
+    padding: 3px;
+}
+
+@keyframes animate {
+    0% {
+        color: aqua;
+    }
+    50% {
+        color: rgb(0, 255, 0);
+    }
+    100% {
+        color: rgb(204, 0, 255);
+    }
+}
+
+#sideNavigation::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+}
+
+#application-project1-display-component---list_view_01--listPage-cont {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
     scrollbar-width: none;
 }
+
 @media (min-width: 80rem) {
     .sapUiMedia-Std-Desktop .sapUShellApplicationContainer.sapUShellApplicationContainerLimitedWidth {
         width: auto !important;
     }
 }
-#application-project1-display-component---list_view_01--Panel3-content{
+
+#application-project1-display-component---list_view_01--Panel3-content {
     background: none !important;
 }
-.v-m-title{
-display: none;
-}
 
+.v-m-title {
+    display: none;
+}

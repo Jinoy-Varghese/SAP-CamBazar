@@ -10,7 +10,8 @@
     "@cap-js/hana": "^1",
     "@sap/cds": "^8",
     "express": "^4.21.1",
-    "express-fileupload": "^1.5.1"
+    "express-fileupload": "^1.5.1",
+    "@sap/xssec": "^4"
   },
   "devDependencies": {
     "@cap-js/cds-types": "^0.6",
@@ -32,8 +33,24 @@
         "kind": "sqlite",
         "credentials": {
           "url": "db/my-bookshop.sqlite"
+        },
+        "schema_evolution": "auto"
+      },
+      "[production]": {
+        "auth": "xsuaa",
+        "db": {
+          "kind": "hana"
         }
       }
+    },
+    "sql": {
+      "native_hana_associations": false
+    },
+    "fiori": {
+      "preview": true
+    },
+    "server": {
+      "index": true
     }
   },
   "sapux": [

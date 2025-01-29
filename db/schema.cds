@@ -14,6 +14,16 @@ entity Books {
     author : Association to Authors;
     stock  : Integer;
     attachments: Composition of many CustomAttachments;
+    status : localized String;
+    active_status : localized String;
+    active : localized String;
+}
+
+entity Sales {
+    key ID : UUID;
+    item_id : Integer;
+    sold_by : Integer;
+    sale_time: DateTime;
 }
 
 entity Authors {

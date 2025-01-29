@@ -1,0 +1,77 @@
+.redtext{
+    color:rgb(255, 0, 0);
+    animation: animate 2s linear infinite;
+}
+.customButton{
+    margin-top: 1rem;
+}
+.vbox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.custform{
+    border: 1px solid black;
+    border-radius: 15px;
+}
+.sapUiRespGridSpanS12{
+    width: 0;
+}
+.mt-1{
+    margin-top: 2vh;
+}
+.mt-2{
+    margin-top: 6vh;
+}
+.mt-3{
+    margin-top: 9vh;
+}
+.mt-4{
+    margin-top: 12vh;
+}
+.ml-1{
+    margin-left: 1vw;
+}
+.justify-content-center
+{
+  justify-content: center;  
+}
+.d-flex{
+    display:flex;
+}
+.align-items-center{
+    align-items: center;
+}
+
+@keyframes animate{
+    0%{
+        color:aqua;
+    }   
+    50%{
+        color:rgb(0, 255, 0);
+    }
+    100%{
+        color:rgb(204, 0, 255);
+    }
+
+}
+#sideNavigation::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+#application-project1-display-component---list_view_01--listPage-cont
+{
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;
+}
+@media (min-width: 80rem) {
+    .sapUiMedia-Std-Desktop .sapUShellApplicationContainer.sapUShellApplicationContainerLimitedWidth {
+        width: auto !important;
+    }
+}
+#application-project1-display-component---list_view_01--Panel3-content{
+    background: none !important;
+}
+.v-m-title{
+display: none;
+}
+

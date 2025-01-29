@@ -7,8 +7,9 @@ modules:
     type: nodejs
     path: gen/srv
     requires:
-      - name: cap_project_01-db
-      - name: cap_project_01-attachments
+      # - name: cap_project_01-db
+      # - name: cap_project_01-attachments
+      - name: cap_project_01-auth
     provides:
       - name: srv-api
         properties:
@@ -19,13 +20,13 @@ modules:
       readiness-health-check-type: http
     build-parameters:
       builder: npm
-  - name: cap_project_01-db-deployer
-    type: hdb
-    path: gen/db
-    requires:
-      - name: cap_project_01-db
-    parameters:
-      buildpack: nodejs_buildpack
+  # - name: cap_project_01-db-deployer
+  #   type: hdb
+  #   path: gen/db
+  #   requires:
+  #     - name: cap_project_01-db
+  #   parameters:
+  #     buildpack: nodejs_buildpack
   - name: cap_project_01-app-content
     type: com.sap.application.content
     path: .
@@ -51,12 +52,28 @@ modules:
         - npm run build:cf
       supported-platforms:
         []
-resources:
-  - name: cap_project_01-db
-    type: com.sap.xs.hdi-container
+
+  - name: cap_project_01
+    type: approuter.nodejs
+    path: app/router
     parameters:
-      service: hana
-      service-plan: hdi-shared
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: cap_project_01-auth
+resources:
+  # - name: cap_project_01-db
+  #   type: com.sap.xs.hdi-container
+  #   parameters:
+  #     service: hana
+  #     service-plan: hdi-shared
   - name: cap_project_01-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
@@ -81,11 +98,20 @@ resources:
       service: destination
       service-name: cap_project_01-destination-service
       service-plan: lite
-  - name: cap_project_01-attachments
+  # - name: cap_project_01-attachments
+  #   type: org.cloudfoundry.managed-service
+  #   parameters:
+  #     service: objectstore
+  #     service-plan: standard
+  - name: cap_project_01-auth
     type: org.cloudfoundry.managed-service
     parameters:
-      service: objectstore
-      service-plan: standard
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: cap_project_01-${org}-${space}
+        tenant-mode: dedicated
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true

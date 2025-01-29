@@ -3,8 +3,6 @@
         <buttons>
             <Button id="viewButton" icon="sap-icon://show" text="View" press=".onViewPress"></Button>
             <Button id="sendTo" icon="sap-icon://paper-plane" text="Send to Sales" press=".sendTo" />
-            <Button id="Invoice" icon="sap-icon://download" text="Invoice" press="window.open('../../uploads/invoice0003.pdf')" />
-            <Button id="addToCart" icon="sap-icon://cart" text="Add to Cart" press=".addToCart" />
             <Button id="editButton" icon="sap-icon://edit" text="Edit" press=".onEditPress" />
             <Button id="deleteButton" icon="sap-icon://delete" text="Delete" press=".onDeletePress" />
         </buttons>

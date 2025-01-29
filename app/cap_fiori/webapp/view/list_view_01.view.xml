@@ -4,14 +4,17 @@
     xmlns:viz.data="sap.viz.ui5.data" 
     xmlns:unified="sap.ui.unified"
     xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" 
-    xmlns:commons="sap.suite.ui.commons" xmlns:l="sap.ui.layout" 
-    xmlns="sap.m" xmlns:f="sap.f" controllerName="capfiori.controller.CAP_VIEW_01" 
+    xmlns:commons="sap.suite.ui.commons"
+    xmlns:l="sap.ui.layout" 
+    xmlns="sap.m" 
+    xmlns:f="sap.f"
+    controllerName="capfiori.controller.CAP_VIEW_01" 
     displayBlock="true" xmlns:tnt="sap.tnt">
     <Page id="listPage" title="{i18n>appTitle}" >
     <Toolbar id="_IDGenToolbar1" >
         <Button id="_DGenButton1" icon="sap-icon://menu2" type="Transparent" press=".onCollapseExpandPress"/>
         <ToolbarSpacer id="_IDGenToolbarSpacer" />
-        <Text id="_IDGenText4" text="Home Page"></Text>
+        <Text id="_IDGenText4" text=""></Text>
         <ToolbarSpacer id="_IDGenToolbarSpacer3" />
         <VBox id="_IDGenVBox5"  class="sapUiSmallMargin">
         <Button id="profile_button" text="Hi, {userModel>/username}" press=".profile_dropdown"></Button>
@@ -24,36 +27,24 @@
             <tnt:SideNavigation id="sideNavigation" selectedKey="walked" >
                 <tnt:NavigationList id="_IDGenNavigationList">
                     <tnt:NavigationListItem id="_IDGenNavigationListItem1" text="Home" icon="sap-icon://home" select=".onHomePress" />
-                    <tnt:NavigationListGroup id="_IDGenNavigationListGroup" text="New">
+                    <tnt:NavigationListGroup id="_IDGenNavigationListGroup" text="Sales">
+                        <tnt:NavigationListItem id="_IDGenNavigationListItem5" text="Leads" select=".viewOrders" icon="sap-icon://add-photo" />
+                        <tnt:NavigationListItem id="_IDGenNavigationListItem11" select=".purchaseList" text="Purchased" icon="sap-icon://camera" />
                         <tnt:NavigationListItem id="_IDGenNavigationListItem3" select=".onListPress" text="Order List" icon="sap-icon://activity-2" />
                         <tnt:NavigationListItem id="_IDGenNavigationListItem4" text="Master" icon="sap-icon://key-user-settings">
-                            <tnt:NavigationListItem id="_IDGenNavigationListItem5" text="Item Master" select=".viewOrders" />
                             <tnt:NavigationListItem text="Add New Item" id="add_new" select=".add_item" />
                         </tnt:NavigationListItem>
                     </tnt:NavigationListGroup>
+                    <tnt:NavigationListGroup id="_IDGenNavigationListGroup1" text="Reports">
+                        <tnt:NavigationListItem id="_IDGenNavigationListItem6" text="Stock List" icon="sap-icon://order-status" select=".stockListView" />
+                        <tnt:NavigationListItem id="_IDGenNavigationListItem7" text="Products" icon="sap-icon://order-status" select=".products"/>
+                        <tnt:NavigationListItem id="_IDGenNavigationListItem8" text="Transactions" icon="sap-icon://lead" />
+                    </tnt:NavigationListGroup>
                     <tnt:NavigationListItem id="_IDGenNavigationListItem2" select=".onAboutPress"  text="About" icon="sap-icon://hint" />
-                    <tnt:NavigationListGroup id="_IDGenNavigationListGroup1" text="Recently used">
-                        <tnt:NavigationListItem id="_IDGenNavigationListItem6" text="Managing My Area" icon="sap-icon://kpi-managing-my-area" />
-                        <tnt:NavigationListItem id="_IDGenNavigationListItem7" text="Flight" icon="sap-icon://flight" />
-                        <tnt:NavigationListItem id="_IDGenNavigationListItem8" text="Map" icon="sap-icon://map-2" />
-                    </tnt:NavigationListGroup>
-                    <tnt:NavigationListGroup id="_IDGenNavigationListGroup2" text="Restricted" enabled="false">
-                        <tnt:NavigationListItem id="_IDGenNavigationListItem9" text="Running" icon="sap-icon://physical-activity" />
-                        <tnt:NavigationListItem id="_IDGenNavigationListItem10" text="Scissors" icon="sap-icon://scissors" />
-                    </tnt:NavigationListGroup>
-                </tnt:NavigationList>
-                <tnt:fixedItem>
-                    <tnt:NavigationList id="_IDGenNavigationList1">
-                        <tnt:NavigationListItem id="_IDGenNavigationListItem12" text="Bar Chart" icon="sap-icon://bar-chart" />
-                        <tnt:NavigationListItem id="_IDGenNavigationListItem13" selectable="false" href="https://cspsyco.blogspot.com" target="_blank" text="Learn More" icon="sap-icon://message-information" />
-                        <tnt:NavigationListItem id="_IDGenNavigationListItem14" text="Compare" icon="sap-icon://compare" />
-                    </tnt:NavigationList>
-                </tnt:fixedItem>
+                </tnt:NavigationList>   
             </tnt:SideNavigation>
         </VBox>
-
         <VBox id="_IDGenVBox3" width="100%">
-
             <Panel id="Panel2" visible="false" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
                 <headerToolbar>
                     <OverflowToolbar id="_IDGenOverflowToolbar2">
@@ -61,15 +52,73 @@
                     </OverflowToolbar>
                 </headerToolbar>
                 <content>
-                    <Breadcrumbs id="_IDGenBreadcrumb2" currentLocationText="Dashboard" class="mt-1" >
+                    <Breadcrumbs id="_IDGenBreadcrumb2" currentLocationText="Orders" class="mt-1" >
                             <Link id="_IDGenLink2" press="onPress" text="Order List"/>
                     </Breadcrumbs>
-                    <List id="_IDGenList" items="{/Books}">
-                        <StandardListItem id="_IDGenStandardListItem1" type="Active" title="{title}" />
-                    </List>
+                        <Table  id="SalesTable" 
+                            items="{path: '/sales',
+								    parameters: {
+									$count: true
+								}
+                                }"
+                                mode="MultiSelect">
+                        <headerToolbar>
+                            <OverflowToolbar id="_IDGenOvrflowToolbar3">
+                                <content>
+                                <ToolbarSpacer id="_IDGenoolbarSpacer4"/>
+                                <SearchField
+                                    id="searchFieldSales"
+                                    width="20%"
+                                    placeholder="Search this table"
+                                    search=".onSearchSales"/>
+                                <Button
+                                    id="refreshUsesButton"
+                                    icon="sap-icon://refresh"
+                                    tooltip="Refresh"
+                                    press="onRefresh('SalesTable')"/>
+                                <Button
+                                    id="deleteUsButton"
+                                    icon="sap-icon://delete"
+                                    tooltip="Delete Row"
+                                    press=".onDelete">
+                                    <layoutData>
+                                        <OverflowToolbarLayoutData id="_IDGenOverlowToolbarLayoutData" priority="NeverOverflow"/>
+                                    </layoutData>
+                                </Button>
+                                </content>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column id="_IDGenCoumn">
+                                <Label id="_IDGenLbel1" text="Id" />
+                            </Column>
+                            <Column id="_IDGenCoumn1">
+                                <Label id="_IDGenLabl3" text="Item ID" />
+                            </Column>
+                            <Column id="_IDGenColum2">
+                                <Label id="_IDGenLabl4" text="Done By" />
+                            </Column>
+                            <Column id="_IDGenColun3">
+                                <Label id="_IDGenLael5" text="Sale Time" />
+                            </Column>
+                            <Column id="_IDGenCoumn4">
+                                <Label id="_IDenLe11" text="Action" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem id="_IDGenColumnLisItem1">
+                                <cells>
+                                    <Text id="_IDGenTex" text="{ID}" />
+                                    <Text id="_IDGenTet9" text="{item_id}" />
+                                    <Text id="_IDGenTet10" text="{sold_by}" />
+                                    <Text id="_IDGenTt11" text="{sale_time}" />
+                                    <Button id="action_utton" text="..." press="onActionPress($event,'orderList')"  />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
                 </content>
             </Panel>
-
             <Panel id="Panel1" visible="false" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
                 <headerToolbar>
                     <OverflowToolbar id="_IDGenOverflowToolbar">
@@ -84,9 +133,9 @@
                         <Image id="_IDGenImage" src="{img>/products/pic1}" width="10em" />
                     </l:HorizontalLayout>
                     <Text id="_IDGenText6" text="Lorem ipsum dolor st amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat" />
+                
                 </content>
             </Panel>
-
             <Panel id="Panel3" visible="true" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
                 <content>
                     <f:GridList id="gridList">
@@ -97,7 +146,7 @@
                                 </layoutData>
 
                                 <Title id="_IDGenTitle1" text="Total Orders" wrapping="true" />
-                                <Label id="_IDGenLabel" text="1027" wrapping="true" />
+                                <Label id="_IDGenLabel" text="{/sales/$count}" wrapping="true" />
                             </VBox>
                         </f:GridListItem>
                         <f:GridListItem id="_IDGenGridListItem3">
@@ -107,17 +156,16 @@
                                 </layoutData>
 
                                 <Title id="_IDGenTitl" text="Active" wrapping="true" />
-                                <Label id="_IDGenLabe" text="578" wrapping="true" />
-                            </VBox>
+                                <Label id="_IDGenLabe" text="{path: '/Books/$count', parameters: { $filter: 'status eq \'L\'' }}" wrapping="true" />                            </VBox>
                         </f:GridListItem>
-                                            <f:GridListItem id="_IDGenGridListIt2">
+                        <f:GridListItem id="_IDGenGridListIt2">
                             <VBox id="_IDGeBox4" class="sapUiSmallMargin">
                                 <layoutData>
                                     <FlexItemData id="_IDGenFlexemData2" growFactor="1" shrinkFactor="0" /> <!-- Don't shrink below minimum size. Fill space if available. -->
                                 </layoutData>
 
-                                <Title id="_IDGentle4" text="Cancelled" wrapping="true" />
-                                <Label id="_IDGenLel2" text="101" wrapping="true" />
+                                <Title id="_IDGentle4" text="Purchased" wrapping="true" />
+                                <Label id="_IDGenLel2" text="{path: '/Books/$count', parameters: { $filter: 'status eq \'P\'' }}" wrapping="true" />
                             </VBox>
                         </f:GridListItem>
                         <f:GridListItem id="_IDGenGridListItem2">
@@ -126,14 +174,14 @@
                                     <FlexItemData id="_IDGenFlexItemData2" growFactor="1" shrinkFactor="0" /> <!-- Don't shrink below minimum size. Fill space if available. -->
                                 </layoutData>
 
-                                <Title id="_IDGenTitle4" text="Pending" wrapping="true" />
-                                <Label id="_IDGenLabel2" text="161" wrapping="true" />
+                                <Title id="_IDGenTitle4" text="Leads Rejected" wrapping="true" />
+                                <Label id="_IDGenLabel2" text="{path: '/Books/$count', parameters: { $filter: 'active_status eq \'N\'' }}" wrapping="true" />
                             </VBox>
                         </f:GridListItem>
                     </f:GridList>
                     <f:GridList id="_IDGenGridList">
                         <f:GridListItem id="_IDGenGridListItem4">
-                            <commons:ChartContainer id="chartContainer" showFullScreen="true" showPersonalization="false"  personalizationPress="attachPersonalizationPress" contentChange="attachContentChange" title="Revenue">
+                            <commons:ChartContainer id="chartContainer" showFullScreen="true" showPersonalization="false"  personalizationPress="attachPersonalizationPress" contentChange="attachContentChange" title="Stocks">
                                 <commons:content>
                                     <commons:ChartContainerContent id="_IDGenChartContainerContent" icon="sap-icon://line-chart" title="Line Chart">
                                         <commons:content>
@@ -166,67 +214,73 @@
                 </content>
             </Panel>
             <Panel id="Panel4" visible="false" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
-
-            <Table id="ordersTable" items="{path: '/Books',
-								parameters: {
-									$count: true
-								}
-                                }">
-            	<headerToolbar>
-                    <OverflowToolbar id="_IDGenOverflowToolbar3">
-                        <content>
-						<ToolbarSpacer id="_IDGenToolbarSpacer4"/>
-                        <SearchField
-                            id="searchField"
-                            width="20%"
-                            placeholder="Search this table"
-                            search=".onSearch"/>
-						<Button
-							id="refreshUsersButton"
-							icon="sap-icon://refresh"
-							tooltip="Refresh"
-							press=".onRefresh"/>
-                        <Button
-                            id="deleteUserButton"
-                            icon="sap-icon://delete"
-                            tooltip="Delete Row"
-                            press=".onDelete">
-                            <layoutData>
-                                <OverflowToolbarLayoutData id="_IDGenOverflowToolbarLayoutData" priority="NeverOverflow"/>
-                            </layoutData>
-                        </Button>
-						</content>
-					</OverflowToolbar>
-				</headerToolbar>
-                <columns>
-                    <Column id="_IDGenColumn">
-                        <Label id="_IDGenLabel1" text="Id" />
-                    </Column>
-                    <Column id="_IDGenColumn1">
-                        <Label id="_IDGenLabel3" text="Item Name" />
-                    </Column>
-                    <Column id="_IDGenColumn2">
-                        <Label id="_IDGenLabel4" text="Sales Price" />
-                    </Column>
-                    <Column id="_IDGenColumn3">
-                        <Label id="_IDGenLabel5" text="Stock" />
-                    </Column>
-                    <Column id="_IDGenColumn4">
-                        <Label id="_IDenLbe11" text="Action" />
-                    </Column>
-                </columns>
-                <items>
-                    <ColumnListItem id="_IDGenColumnListItem1">
-                        <cells>
-                            <Text id="_IDGenText8" text="{ID}" />
-                            <Text id="_IDGenText9" text="{title}" />
-                            <Text id="_IDGenText10" text="{author_ID}" />
-                            <Text id="_IDGenText11" text="{stock}" />
-                            <Button id="action_button" text="..." press=".onActionPress" />
-                        </cells>
-                    </ColumnListItem>
-                </items>
-            </Table>
+                <headerToolbar>
+                    <OverflowToolbar id="_DGenOverflowToolar">
+                        <Title id="_IGenTtle" text="Leads"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <Table id="ordersTable" items="{path: '/Books',
+                                        parameters: {
+                                        $count: true
+                                    },
+                                    filters: [{ path: 'status', operator: 'EQ', value1: 'L' }]
+                                    }">
+                    <headerToolbar>
+                        <OverflowToolbar id="_IDGenOverflowToolbar3">
+                            <content>
+                            <ToolbarSpacer id="_IDGenToolbarSpacer4"/>
+                            <SearchField
+                                id="searchField"
+                                width="20%"
+                                placeholder="Search this table"
+                                search=".onSearchLead"/>
+                            <Button
+                                id="refreshUsersButton"
+                                icon="sap-icon://refresh"
+                                tooltip="Refresh"
+                                press="onRefresh('ordersTable')"/>
+                            <Button id="_IDGenButton" icon="sap-icon://excel-attachment" press=".onExport"/>
+                            <Button
+                                id="deleteUserButton"
+                                icon="sap-icon://delete"
+                                tooltip="Delete Row"
+                                press=".onDelete">
+                                <layoutData>
+                                    <OverflowToolbarLayoutData id="_IDGenOverflowToolbarLayoutData" priority="NeverOverflow"/>
+                                </layoutData>
+                            </Button>
+                            </content>
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column id="_IDGenColumn">
+                            <Label id="_IDGenLabel1" text="Id" />
+                        </Column>
+                        <Column id="_IDGenColumn1">
+                            <Label id="_IDGenLabel3" text="Item Name" />
+                        </Column>
+                        <Column id="_IDGenColumn2">
+                            <Label id="_IDGenLabel4" text="Sales Price" />
+                        </Column>
+                        <Column id="_IDGenColumn3">
+                            <Label id="_IDGenLabel5" text="Stock" />
+                        </Column>
+                        <Column id="_IDGenColumn4">
+                            <Label id="_IDenLbe11" text="Action" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem id="_IDGenColumnListItem1">
+                            <cells>
+                                <Text id="_IDGenText8" text="{ID}" />
+                                <Text id="_IDGenText9" text="{title}" />
+                                <Text id="_IDGenText10" text="{author_ID}" />
+                                <Text id="_IDGenText11" text="{stock}" />
+                                <Button id="action_button" text="..." press="onActionPress($event,'Leads')"  />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
             
             </Panel>
             <Panel id="Panel5" visible="false" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
@@ -246,17 +300,17 @@
                         </VBox>
                         <VBox id="_IDGenVBox8" class="sapUiSmallMarginBegin">
                             <Label id="_IDGenLabel8" text="Item Name"></Label>
-                            <Input xmlns="sap.m" placeholder="Enter Your User name" id="item_name"  />
+                            <Input xmlns="sap.m" placeholder="Enter Your Item name" id="item_name"  />
                         </VBox>
                     </HBox>
                     <HBox id="_IDGenHBox3" alignItems="Center">
                        <VBox id="_IDGenVBox6" class="sapUiSmallMarginEnd">
                             <Label id="_IDGenLabel6" text="Stock"></Label>
-                            <Input xmlns="sap.m" placeholder="Enter Your User name" id="stock"  />
+                            <Input xmlns="sap.m" placeholder="Enter the Stock Count" id="stock"  />
                         </VBox>
                         <VBox id="_IDGenVBox9" >
                             <Label id="_IDGenLabel9" text="Price"></Label>
-                            <Input xmlns="sap.m" placeholder="Enter Your User name" id="Item_Price"  />
+                            <Input xmlns="sap.m" placeholder="Enter the Item price" id="Item_Price"  />
                         </VBox>
                     </HBox>
                     <HBox id="_IDGenHBox33"  class="mt-1">
@@ -271,9 +325,7 @@
                     </HBox>
                 </content>
             </Panel>
-
             <!-- =================== update item =================== -->
-
             <Panel id="Panel6" visible="false" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
                 <headerToolbar>
                     <OverflowToolbar id="_IDGenOverflowToolbar6">
@@ -311,8 +363,208 @@
                     </HBox>
                 </content>
             </Panel>
-
             <!-- =================== end of update item =================== -->
+            <Panel id="Panel7" visible="false" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
+                <headerToolbar>
+                    <OverflowToolbar id="_IDGenOvrflowToolar">
+                        <Title id="_IDGeTtle" text="Purchased"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <Table id="purchaseTable" items="{path: '/Books',
+                                        parameters: {
+                                        $count: true
+                                    },
+                                    filters: [{ path: 'status', operator: 'EQ', value1: 'P' },
+                                    { path: 'active_status', operator: 'EQ', value1: 'Y' },
+                                    { path: 'stock', operator: 'NE', value1: 0 }
+                                    ]
+                                    }">
+                    <headerToolbar>
+                        <OverflowToolbar id="_IDGenOvflowToolbar3">
+                            <content>
+                            <ToolbarSpacer id="_IDGenTlbarSpacer4"/>
+                            <SearchField
+                                id="searchFieldPurchase"
+                                width="20%"
+                                placeholder="Search this table"
+                                search=".onSearchPurchase"/>
+                            <Button
+                                id="refreshUserButton"
+                                icon="sap-icon://refresh"
+                                tooltip="Refresh"
+                                press="onRefresh('purchaseTable')"/>
+                            <Button
+                                id="deleteUseButton"
+                                icon="sap-icon://delete"
+                                tooltip="Delete Row"
+                                press=".onDelete">
+                                <layoutData>
+                                    <OverflowToolbarLayoutData id="_IDGenOverflowToolarLayoutData" priority="NeverOverflow"/>
+                                </layoutData>
+                            </Button>
+                            </content>
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column id="_IDGenClumn">
+                            <Label id="_IDGenabel1" text="Id" />
+                        </Column>
+                        <Column id="_IDGenColun1">
+                            <Label id="_IDGnLabel3" text="Item Name" />
+                        </Column>
+                        <Column id="_IDGenolumn2">
+                            <Label id="_IDGnLabel4" text="Sales Price" />
+                        </Column>
+                        <Column id="_IDGenolumn3">
+                            <Label id="_IDenLabel5" text="Stock" />
+                        </Column>
+                        <Column id="_IDGnColumn4">
+                            <Label id="_IDenbe11" text="Action" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem id="_IDenColumnListItem1">
+                            <cells>
+                                <Text id="_IDenText8" text="{ID}" />
+                                <Text id="_IDGenTxt9" text="{title}" />
+                                <Text id="_IDGenTex10" text="{author_ID}" />
+                                <Text id="_IDGenTet11" text="{stock}" />
+                                <Button id="action_buton" text="..." press="onActionPress($event,'Purchased')" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </Panel>
+            <Panel id="Panel8" visible="false" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
+                <HBox id="emptyCartIcon" class="d-flex align-items-center justify-content-center" visible="false">
+                    <Image id="_IDGenCartImage" src="../../uploads/emptyCart.png" width="25em" />
+                </HBox>
+                <HBox id="nonEmptyCart" visible="false">
+                    <List id="cartList" items="{cartModel>/cart}" class="cartHBox">
+                        <ObjectListItem id="_IDGenObjectListItem1"
+                            title="{cartModel>name}"
+                            number="₹{cartModel>price}"
+                            type="Active"
+                            press=".onItemPress">
+                            <attributes>
+                                <ObjectAttribute id="_IDGenObjectAttribute" text="{cartModel>description}" />
+                            </attributes>
+                        </ObjectListItem>
+                    </List>
+                    <VBox id="totalPriceBox" alignItems="Center" justifyContent="Center" class="totalPriceBox">
+                        <Text id="_IDGenText7" text="Total Price" class="totalPriceLabel" />
+                        <Text id="totalPrice" text="{cartModel>/totalPrice}" class="totalPriceValue" />
+                        <HBox id="_IDGenHBox4" >
+                            <VBox id="_IDGenVBox12" class="p-1">
+                                <Button text="Clear Cart" press=".clearCart" id="clearCartButton" />
+                            </VBox>
+                            <VBox id="_IDGenVBox13" class="p-1">
+                                <Button text="Place Order" press=".placeOrder" id="placeOrderButton" type="Emphasized"/>
+                            </VBox>
+
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </Panel>
+            <Panel id="Panel9" visible="false" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
+                <headerToolbar>
+                    <OverflowToolbar id="_IDGenOverflowToolar">
+                        <Title id="_IDGenTtle" text="Stock List"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <content> 
+                    <Breadcrumbs id="_IDGeBreadcrumbs" currentLocationText="Stock List" class="mt-1" >
+                        <Link id="_IDGenLnk1" press="onPress" text="Reports"/>
+                    </Breadcrumbs>                    
+
+                    <FlexBox id="_IDGenFlexBox" direction="Row" wrap="Wrap" items="{/Books}" >
+                        <items>
+                            <f:GridListItem id="_1IDGenGridListItem1" class="sapUiResponsiveMargin">
+                                <VBox id="_IDGenVB1ox" class="sapUiSmallMargin">
+                                    <Image id="_IDGenImage1" src="{path: 'attachments/0/file_url', formatter: '.stockFormatFileName', targetType: 'any'}" width="8rem" height="100px" />                        
+                                    <Title id="_IDGenTitle11" text="{title}" wrapping="true" />
+                                    <Label id="_IDGen1Label1" text="Price: {author_ID}" wrapping="true" />
+                                    <Label id="_IDGen1Label12" text="Status: {status}" wrapping="true" />
+                                </VBox>
+                            </f:GridListItem>
+                        </items>
+                    </FlexBox>
+
+                </content>
+            </Panel>
+            <Panel id="Panel10" visible="false" width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
+                <headerToolbar>
+                    <OverflowToolbar id="_DGenOveflowToolar">
+                        <Title id="_IGenTte" text="Products"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <Table id="productTable" items="{path: '/Books',
+                                        parameters: {
+                                        $count: true
+                                    }
+                                    }">
+                    <headerToolbar>
+                        <OverflowToolbar id="_IDGenOverlowToolbar3">
+                            <content>
+                            <ToolbarSpacer id="_IDGeoolbarSpacer4"/>
+                            <SearchField
+                                id="productSearchField"
+                                width="20%"
+                                placeholder="Search this table"
+                                search=".onSearchLead"/>
+                            <Button
+                                id="refreshProductButton"
+                                icon="sap-icon://refresh"
+                                tooltip="Refresh"
+                                press="onRefresh('productTable')"/>
+                            <Button id="_IDGenBtton" icon="sap-icon://excel-attachment" press=".onExport"/>
+                            </content>
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column id="_IDGenClmn">
+                            <Label id="_IDGeabel1" text="Id" />
+                        </Column>
+                        <Column id="_IDGemn1">
+                            <Label id="_IDGbel3" text="Item Name" />
+                        </Column>
+                        <Column id="_IDGemn2">
+                            <Label id="_IDGbel4" text="Sales Price" />
+                        </Column>
+                        <Column id="_IDGemn3">
+                            <Label id="_IDGbel5" text="Stock" />
+                        </Column>
+                        <Column id="_IDGemn4">
+                            <Label id="_Ienbe11" text="Status" />
+                        </Column>
+                        <Column id="_IDGemn5">
+                            <Label id="_Ienbe12" text="Active" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem id="_IDGemnListItem1">
+                            <cells>
+                                <Text id="_IText8" text="{ID}" />
+                                <Text id="_IText9" text="{title}" />
+                                <Text id="_IText10" text="{author_ID}" />
+                                <Text id="_IText11" text="{stock}" />
+                                <tnt:InfoLabel id="il1" text="{status}" renderMode="Narrow" colorScheme="{path: 'status', formatter: 'getColorScheme(L)'}" /> 
+                                <Text id="_IText13" text="{active_status}" />
+                 
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            
+            </Panel>
+
+
+
+
+
+
+
+
 
 
 
